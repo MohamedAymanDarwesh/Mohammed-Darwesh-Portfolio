@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mohamed Darwesh · QA Engineer</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%23080C14'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black,sans-serif' font-weight='900' font-size='26' fill='%2300E5C8'>MD</text></svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #080C14;
+  --bg2: #0E1420;
+  --bg3: #141B2A;
+  --cyan: #00E5C8;
+  --coral: #FF5C5C;
+  --blue: #4D9FFF;
+  --yellow: #FFD166;
+  --white: #F0F4FF;
+  --muted: #6B7A99;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body {
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+  opacity:0.4;
+}
+
+/* ── LAYOUT ── */
+.page {
+  display:grid;
+  grid-template-columns:320px 1fr;
+  min-height:100vh;
+  position:relative;
+  z-index:1;
+}
+
+/* ── SIDEBAR ── */
+aside {
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  padding:48px 32px;
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+  display:flex;
+  flex-direction:column;
+  gap:40px;
+}
+
+aside::-webkit-scrollbar{width:3px;}
+aside::-webkit-scrollbar-track{background:transparent;}
+aside::-webkit-scrollbar-thumb{background:var(--border2);}
+
+/* avatar */
+.avatar-wrap {
+  position:relative;
+  width:80px;
+  height:80px;
+  margin-bottom:4px;
+}
+.avatar {
+  width:80px;height:80px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--cyan),var(--blue));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;
+  font-size:28px;font-weight:800;
+  color:var(--bg);
+  flex-shrink:0;
+}
+.avatar-ring {
+  position:absolute;inset:-4px;
+  border-radius:50%;
+  border:2px dashed rgba(0,229,200,0.3);
+  animation:spin 12s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.sidebar-name {
+  font-family:'Syne',sans-serif;
+  font-size:22px;
+  font-weight:800;
+  color:var(--white);
+  line-height:1.2;
+  letter-spacing:-0.3px;
+}
+
+.sidebar-title {
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  color:var(--cyan);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-top:4px;
+}
+
+/* contact */
+.sidebar-section-label {
+  font-size:10px;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-weight:600;
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.sidebar-section-label::after {
+  content:'';flex:1;height:1px;background:var(--border);
+}
+
+.contact-list {display:flex;flex-direction:column;gap:10px;}
+.contact-row {
+  display:flex;align-items:center;gap:10px;
+  font-size:12.5px;color:rgba(240,244,255,0.65);
+  text-decoration:none;
+  transition:color 0.2s;
+}
+.contact-row:hover { color:var(--cyan); }
+.contact-row:hover svg { stroke:var(--cyan); }
+.contact-row svg {
+  width:14px;height:14px;stroke:var(--cyan);fill:none;flex-shrink:0;
+}
+
+/* status badge */
+.status-badge {
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(0,229,200,0.08);
+  border:1px solid rgba(0,229,200,0.2);
+  border-radius:20px;
+  padding:6px 14px;
+  font-size:12px;color:var(--cyan);
+  font-family:'DM Mono',monospace;
+}
+.status-dot {
+  width:7px;height:7px;border-radius:50%;
+  background:var(--cyan);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.8);}}
+
+/* skills sidebar */
+.skill-pill-list {display:flex;flex-wrap:wrap;gap:7px;}
+.skill-pill {
+  font-size:11.5px;
+  padding:4px 11px;
+  border-radius:20px;
+  border:1px solid var(--border2);
+  color:rgba(240,244,255,0.7);
+  background:var(--bg3);
+  font-weight:400;
+  transition:border-color 0.2s,color 0.2s;
+}
+.skill-pill:hover{border-color:var(--cyan);color:var(--cyan);}
+.skill-pill.cyan{border-color:rgba(0,229,200,0.35);color:var(--cyan);background:rgba(0,229,200,0.05);}
+.skill-pill.coral{border-color:rgba(255,92,92,0.35);color:var(--coral);background:rgba(255,92,92,0.05);}
+.skill-pill.blue{border-color:rgba(77,159,255,0.35);color:var(--blue);background:rgba(77,159,255,0.05);}
+.skill-pill.yellow{border-color:rgba(255,209,102,0.35);color:var(--yellow);background:rgba(255,209,102,0.05);}
+
+/* ── MAIN ── */
+main {
+  padding:56px 56px 80px;
+  display:flex;
+  flex-direction:column;
+  gap:72px;
+}
+
+/* section */
+.section-tag {
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--coral);
+  margin-bottom:10px;
+}
+
+.section-title {
+  font-family:'Syne',sans-serif;
+  font-size:36px;
+  font-weight:800;
+  color:var(--white);
+  letter-spacing:-0.5px;
+  line-height:1.1;
+  margin-bottom:32px;
+  position:relative;
+  display:inline-block;
+}
+
+.section-title::after {
+  content:'';
+  position:absolute;
+  bottom:-8px;left:0;
+  height:3px;width:40px;
+  background:var(--coral);
+  border-radius:2px;
+}
+
+/* ── HERO ── */
+.hero {
+  padding-top:0;
+}
+
+.hero-kicker {
+  font-family:'DM Mono',monospace;
+  font-size:12px;
+  letter-spacing:3px;
+  color:var(--cyan);
+  text-transform:uppercase;
+  margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.hero-kicker::before{
+  content:'';display:inline-block;
+  width:32px;height:1px;background:var(--cyan);
+}
+
+.hero-headline {
+  font-family:'Syne',sans-serif;
+  font-size:clamp(40px,5vw,60px);
+  font-weight:800;
+  line-height:1.05;
+  letter-spacing:-1px;
+  margin-bottom:24px;
+}
+
+.hero-headline .line2 { color:var(--cyan); }
+.hero-headline .line3 { color:var(--muted);font-size:0.7em;font-weight:600; }
+
+.hero-bio {
+  font-size:15px;
+  line-height:1.8;
+  color:rgba(240,244,255,0.6);
+  max-width:560px;
+  font-weight:300;
+  margin-bottom:32px;
+}
+
+.hero-stats {
+  display:flex;gap:32px;flex-wrap:wrap;
+}
+
+.stat {
+  display:flex;flex-direction:column;gap:4px;
+}
+
+.stat-num {
+  font-family:'Syne',sans-serif;
+  font-size:28px;
+  font-weight:800;
+  color:var(--white);
+  line-height:1;
+}
+
+.stat-num span { color:var(--cyan); }
+
+.stat-label {
+  font-size:11px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  font-weight:500;
+}
+
+.stat-divider {
+  width:1px;
+  background:var(--border);
+  align-self:stretch;
+}
+
+/* ── EXPERIENCE ── */
+.exp-list {display:flex;flex-direction:column;gap:24px;}
+
+.exp-card {
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:28px 32px;
+  position:relative;
+  overflow:hidden;
+  transition:border-color 0.3s,transform 0.2s;
+}
+
+.exp-card::before {
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+}
+
+.exp-card.c1::before{background:linear-gradient(90deg,var(--cyan),var(--blue));}
+.exp-card.c2::before{background:linear-gradient(90deg,var(--coral),var(--yellow));}
+.exp-card.c3::before{background:linear-gradient(90deg,var(--blue),var(--cyan));}
+
+.exp-card:hover {
+  border-color:var(--border2);
+  transform:translateY(-2px);
+}
+
+.exp-top {
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:16px;margin-bottom:6px;flex-wrap:wrap;
+}
+
+.exp-company {
+  font-family:'Syne',sans-serif;
+  font-size:19px;font-weight:700;
+  color:var(--white);
+}
+
+.exp-badge {
+  font-family:'DM Mono',monospace;
+  font-size:11px;padding:4px 12px;
+  border-radius:20px;border:1px solid var(--border2);
+  color:var(--muted);white-space:nowrap;flex-shrink:0;
+}
+
+.exp-role-line {
+  display:flex;align-items:center;gap:10px;margin-bottom:16px;
+}
+
+.exp-role {
+  font-size:13px;font-weight:500;
+  color:var(--cyan);
+}
+
+.exp-loc {
+  font-size:12px;color:var(--muted);
+  display:flex;align-items:center;gap:4px;
+}
+
+.exp-loc::before{content:'·';color:var(--border2);}
+
+.exp-bullets {
+  list-style:none;
+  display:flex;flex-direction:column;gap:8px;
+  margin-bottom:20px;
+}
+
+.exp-bullets li {
+  font-size:13.5px;
+  color:rgba(240,244,255,0.6);
+  line-height:1.65;
+  padding-left:20px;
+  position:relative;
+  font-weight:300;
+}
+
+.exp-bullets li::before {
+  content:'▸';
+  position:absolute;left:0;
+  color:var(--cyan);font-size:10px;top:4px;
+}
+
+.exp-card.c2 .exp-bullets li::before{color:var(--coral);}
+.exp-card.c3 .exp-bullets li::before{color:var(--blue);}
+.exp-card.c2 .exp-role{color:var(--coral);}
+.exp-card.c3 .exp-role{color:var(--blue);}
+
+.proj-strip {
+  border-top:1px solid var(--border);
+  padding-top:16px;
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+}
+
+.proj-label {
+  font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);
+  font-weight:600;margin-right:4px;
+}
+
+.proj-tag {
+  font-size:11.5px;
+  padding:4px 12px;
+  border-radius:6px;
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  color:rgba(240,244,255,0.7);
+}
+
+/* ── SKILLS MAIN ── */
+.skills-main-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+
+.skill-box {
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:22px 24px;
+  transition:border-color 0.2s;
+}
+
+.skill-box:hover{border-color:var(--border2);}
+
+.skill-box-icon {
+  font-size:22px;margin-bottom:12px;
+}
+
+.skill-box-title {
+  font-family:'Syne',sans-serif;
+  font-size:13px;font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  margin-bottom:14px;
+}
+
+.skill-box.t-cyan .skill-box-title{color:var(--cyan);}
+.skill-box.t-coral .skill-box-title{color:var(--coral);}
+.skill-box.t-blue .skill-box-title{color:var(--blue);}
+.skill-box.t-yellow .skill-box-title{color:var(--yellow);}
+
+.skill-box-tags {display:flex;flex-wrap:wrap;gap:7px;}
+.skill-box-tags span {
+  font-size:12px;padding:3px 10px;
+  border-radius:4px;
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  color:rgba(240,244,255,0.65);
+}
+
+/* ── PROJECTS ── */
+.projects-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(380px,1fr));
+  gap:20px;
+}
+
+.project-card {
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:26px 28px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  transition:border-color 0.3s,transform 0.2s;
+}
+
+.project-card::before {
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+}
+
+.project-card.p1::before{background:linear-gradient(90deg,var(--cyan),var(--blue));}
+.project-card.p2::before{background:linear-gradient(90deg,var(--coral),var(--yellow));}
+.project-card.p3::before{background:linear-gradient(90deg,var(--blue),var(--cyan));}
+.project-card.p4::before{background:linear-gradient(90deg,var(--yellow),var(--coral));}
+.project-card.p5::before{background:linear-gradient(90deg,var(--cyan),var(--coral));}
+
+.project-card:hover {
+  border-color:var(--border2);
+  transform:translateY(-2px);
+}
+
+.project-top {
+  display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;
+}
+
+.project-name {
+  font-family:'Syne',sans-serif;
+  font-size:17px;font-weight:700;
+  color:var(--white);
+  line-height:1.3;
+}
+
+.project-domain-badge {
+  font-family:'DM Mono',monospace;
+  font-size:10.5px;padding:4px 12px;
+  border-radius:20px;border:1px solid var(--border2);
+  color:var(--muted);white-space:nowrap;flex-shrink:0;
+}
+
+.project-meta {
+  font-size:12px;color:var(--muted);
+  font-weight:400;
+}
+
+.project-meta span { color:rgba(240,244,255,0.65); }
+
+.project-bullets {
+  list-style:none;
+  display:flex;flex-direction:column;gap:7px;
+}
+
+.project-bullets li {
+  font-size:13px;
+  color:rgba(240,244,255,0.6);
+  line-height:1.6;
+  padding-left:18px;
+  position:relative;
+  font-weight:300;
+}
+
+.project-bullets li::before {
+  content:'▸';
+  position:absolute;left:0;
+  color:var(--cyan);font-size:10px;top:3px;
+}
+
+.project-card.p2 .project-bullets li::before{color:var(--coral);}
+.project-card.p3 .project-bullets li::before{color:var(--blue);}
+.project-card.p4 .project-bullets li::before{color:var(--yellow);}
+.project-card.p5 .project-bullets li::before{color:var(--coral);}
+
+.project-footer {
+  border-top:1px solid var(--border);
+  padding-top:14px;
+  display:flex;flex-direction:column;gap:8px;
+}
+
+.project-footer-row {
+  display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+}
+
+.project-footer-label {
+  font-size:9.5px;letter-spacing:1.8px;
+  text-transform:uppercase;color:var(--muted);
+  font-weight:600;margin-right:2px;
+}
+
+.project-tool-tag {
+  font-size:11px;
+  padding:3px 10px;
+  border-radius:6px;
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  color:rgba(240,244,255,0.7);
+}
+
+.project-ownership {
+  font-size:11.5px;
+  color:var(--cyan);
+  font-style:italic;
+  font-weight:400;
+}
+
+/* ── CERTS ── */
+.certs-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:14px;
+}
+
+.cert-card {
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:20px 22px;
+  display:flex;gap:16px;align-items:flex-start;
+  transition:border-color 0.2s,transform 0.2s;
+  text-decoration:none;
+  color:inherit;
+  cursor:pointer;
+}
+
+.cert-card:hover{border-color:var(--cyan);transform:translateY(-2px);}
+
+.cert-link-icon {
+  margin-left:auto;
+  flex-shrink:0;
+  opacity:0;
+  transition:opacity 0.2s;
+  color:var(--cyan);
+  font-size:14px;
+  align-self:center;
+}
+
+.cert-card:hover .cert-link-icon { opacity:1; }
+
+.cert-num {
+  font-family:'DM Mono',monospace;
+  font-size:13px;font-weight:500;
+  color:var(--coral);
+  flex-shrink:0;
+  margin-top:2px;
+  min-width:24px;
+}
+
+.cert-title {
+  font-size:13.5px;font-weight:500;
+  color:var(--white);margin-bottom:4px;line-height:1.4;
+}
+
+.cert-org {
+  font-size:12px;color:var(--muted);
+}
+
+/* ── EDUCATION ── */
+.edu-card {
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:36px 40px;
+  display:flex;justify-content:space-between;align-items:center;
+  gap:24px;
+  position:relative;overflow:hidden;
+}
+
+.edu-card::after {
+  content:'BSc';
+  position:absolute;right:40px;bottom:-20px;
+  font-family:'Syne',sans-serif;
+  font-size:120px;font-weight:800;
+  color:rgba(77,159,255,0.04);
+  line-height:1;pointer-events:none;
+  user-select:none;
+}
+
+.edu-degree {
+  font-family:'Syne',sans-serif;
+  font-size:22px;font-weight:700;
+  color:var(--white);margin-bottom:8px;
+  line-height:1.3;
+}
+
+.edu-uni {
+  font-size:14px;color:var(--muted);
+}
+
+.edu-year-badge {
+  font-family:'DM Mono',monospace;
+  font-size:13px;
+  background:rgba(77,159,255,0.08);
+  border:1px solid rgba(77,159,255,0.25);
+  color:var(--blue);
+  padding:10px 20px;border-radius:8px;
+  white-space:nowrap;flex-shrink:0;
+  text-align:center;line-height:1.5;
+}
+
+/* ── SCROLL ANIMATIONS ── */
+.reveal {
+  opacity:0;transform:translateY(28px);
+  transition:opacity 0.65s ease,transform 0.65s ease;
+}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* ── FOOTER ── */
+footer {
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  text-align:center;
+  padding:24px;
+  font-family:'DM Mono',monospace;
+  font-size:12px;
+  color:var(--muted);
+  position:relative;z-index:1;
+}
+
+footer span{color:var(--cyan);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .page{grid-template-columns:1fr;}
+  aside{
+    position:static;height:auto;
+    padding:36px 24px;
+  }
+  main{padding:36px 24px 60px;}
+  .hero-headline{font-size:36px;}
+}
+
+@media print{
+  aside{position:static;height:auto;}
+  .reveal{opacity:1;transform:none;}
+  body::before{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- ── SIDEBAR ── -->
+<aside>
+
+  <div>
+    <div class="avatar-wrap">
+      <div class="avatar">MD</div>
+      <div class="avatar-ring"></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="sidebar-name">Mohamed Darwesh</div>
+    <div class="sidebar-title">Mid-Level Software Tester</div>
+    <br/>
+    <div class="status-badge">
+      <div class="status-dot"></div>
+      Open to work
+    </div>
+  </div>
+
+  <div>
+    <div class="sidebar-section-label">Contact</div>
+    <div class="contact-list">
+      <a class="contact-row" href="mailto:MohammedAyman447@gmail.com">
+        <svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        MohammedAyman447@gmail.com
+      </a>
+      <a class="contact-row" href="tel:+201278012502">
+        <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +20 127 801 2502
+      </a>
+      <a class="contact-row" href="https://www.linkedin.com/in/mohammed-darwish-b09984240" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        linkedin.com/in/mohammed-darwish
+      </a>
+      <a class="contact-row" href="https://mohamedaymandarwesh.github.io" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        mohamedaymandarwesh.github.io
+      </a>
+      <a class="contact-row" href="https://wa.me/201278012502" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <div>
+    <div class="sidebar-section-label">Core Skills</div>
+    <div class="skill-pill-list">
+      <span class="skill-pill cyan">Manual Testing</span>
+      <span class="skill-pill cyan">API Testing</span>
+      <span class="skill-pill coral">Selenium</span>
+      <span class="skill-pill coral">JMeter</span>
+      <span class="skill-pill blue">Jira</span>
+      <span class="skill-pill blue">TestRail</span>
+      <span class="skill-pill blue">Azure DevOps</span>
+      <span class="skill-pill yellow">Postman</span>
+      <span class="skill-pill yellow">SQL</span>
+      <span class="skill-pill">Android</span>
+      <span class="skill-pill">iOS</span>
+      <span class="skill-pill">Agile</span>
+    </div>
+  </div>
+
+  <div>
+    <div class="sidebar-section-label">Education</div>
+    <div style="font-size:13px;color:rgba(240,244,255,0.7);line-height:1.6;">
+      BSc Computer &amp; Information Science<br/>
+      <span style="color:var(--muted);font-size:12px;">6th of October University</span><br/>
+      <span style="color:var(--blue);font-family:'DM Mono',monospace;font-size:11px;">2019 – 2023</span>
+    </div>
+  </div>
+
+</aside>
+
+<!-- ── MAIN CONTENT ── -->
+<main>
+
+  <!-- HERO -->
+  <section class="hero reveal">
+    <div class="hero-kicker">Mid-Level Software Test Engineer</div>
+    <div class="hero-headline">
+      Quality is not<br/>
+      <span class="line2">an accident.</span><br/>
+      <span class="line3">It's engineered.</span>
+    </div>
+    <p class="hero-bio">Detail-oriented QA Engineer with proven experience in web and mobile application testing. Specialized in test design, defect tracking, and QA processes — delivering high-quality software across government, fintech, and marketplace platforms.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">3<span>+</span></div>
+        <div class="stat-label">Years Exp.</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">5<span>+</span></div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Companies</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">6<span>+</span></div>
+        <div class="stat-label">Certificates</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="reveal">
+    <div class="section-tag">// Work History</div>
+    <h2 class="section-title">Experience</h2>
+    <div class="exp-list">
+
+      <!-- AIM TECH -->
+      <div class="exp-card c1">
+        <div class="exp-top">
+          <div class="exp-company">AIM Tech</div>
+          <div class="exp-badge">July 2022 – Oct 2023</div>
+        </div>
+        <div class="exp-role-line">
+          <span class="exp-role">Fresh Software Tester</span>
+          <span class="exp-loc">Cairo, Egypt · Remote</span>
+        </div>
+        <ul class="exp-bullets">
+          <li>Created and executed test cases based on project requirements and user stories.</li>
+          <li>Performed functional and regression testing on web-based demo projects.</li>
+          <li>Reported, tracked, and verified bugs using issue tracking tools (Trello).</li>
+          <li>Collaborated with developers and team members to ensure quality deliverables.</li>
+        </ul>
+      </div>
+
+      <!-- HIJAU TECH -->
+      <div class="exp-card c2">
+        <div class="exp-top">
+          <div class="exp-company">Hijau Tech SDN. BHD.</div>
+          <div class="exp-badge">Oct 2023 – August 2024</div>
+        </div>
+        <div class="exp-role-line">
+          <span class="exp-role">Junior Software Tester</span>
+          <span class="exp-loc">Selangor, Malaysia · Remote</span>
+        </div>
+        <ul class="exp-bullets">
+          <li>Worked on real-world web and mobile (Android &amp; iOS) projects targeting clients in the Malaysian and Saudi markets.</li>
+          <li>Designed and executed comprehensive test cases for functional, UI, and regression testing.</li>
+          <li>Reported and tracked defects using Jira, ensuring timely resolution through collaboration with developers.</li>
+          <li>Actively participated in daily stand-ups and sprint meetings via Slack.</li>
+        </ul>
+        <div class="proj-strip">
+          <span class="proj-label">Projects</span>
+          <span class="proj-tag">Mekaniku</span>
+          <span class="proj-tag">Afrikobo</span>
+          <span class="proj-tag">Mosook Limo</span>
+        </div>
+      </div>
+
+      <!-- ADREE -->
+      <div class="exp-card c3">
+        <div class="exp-top">
+          <div class="exp-company">Adree</div>
+          <div class="exp-badge">August 2024 – Present</div>
+        </div>
+        <div class="exp-role-line">
+          <span class="exp-role">Mid-Level Software Tester</span>
+          <span class="exp-loc">Riyadh, Saudi Arabia · Remote</span>
+        </div>
+        <ul class="exp-bullets">
+          <li>Worked on multiple large-scale government projects in Saudi Arabia, focused on web applications accessed via VPN.</li>
+          <li>Designed and executed comprehensive test cases (TCs) covering functional, UI, regression, and cross-platform scenarios.</li>
+          <li>Performed manual and mobile testing on Android and iOS to validate responsiveness and user experience.</li>
+          <li>Conducted API testing with Postman to verify backend functionality and data integrity.</li>
+          <li>Participated in Agile ceremonies including daily stand-ups, sprint planning, and retrospectives.</li>
+          <li>Leveraged Azure DevOps for end-to-end test management, execution tracking, and reporting.</li>
+          <li>Assisted in performance testing to identify bottlenecks and improve application stability.</li>
+        </ul>
+        <div class="proj-strip">
+          <span class="proj-label">Projects</span>
+          <span class="proj-tag">IA Medical &amp; Non-Medical CRM</span>
+          <span class="proj-tag">Procurement &amp; Monafasat (Saudi EXIM)</span>
+          <span class="proj-tag">King Abdulaziz Center</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="reveal">
+    <div class="section-tag">// Major Projects</div>
+    <h2 class="section-title">Projects</h2>
+    <div class="projects-grid">
+
+      <div class="project-card p1">
+        <div class="project-top">
+          <div class="project-name">Procurement &amp; Monafasat Management System</div>
+          <div class="project-domain-badge">Government / Procurement</div>
+        </div>
+        <div class="project-meta"><span>Saudi EXIM Bank (KSA Government)</span> · Web-based system (OutSystems with SAP integrations)</div>
+        <ul class="project-bullets">
+          <li>Participated as a QC Engineer in testing a government procurement and tender management system.</li>
+          <li>Performed System Integration Testing (SIT) to validate data flows and integrations between OutSystems, SAP, Active Directory, and Digital Signature services.</li>
+          <li>Designed and executed UAT scenarios based on BRD/SRS, validated business workflows, and supported client UAT demos and sign-off.</li>
+          <li>Logged, tracked, and retested defects, prepared test evidence, and supported release readiness decisions.</li>
+        </ul>
+        <div class="project-footer">
+          <div class="project-footer-row">
+            <span class="project-footer-label">Testing</span>
+            <span class="project-tool-tag">SIT</span><span class="project-tool-tag">UAT</span><span class="project-tool-tag">Integration</span><span class="project-tool-tag">API</span><span class="project-tool-tag">Regression</span>
+          </div>
+          <div class="project-footer-row">
+            <span class="project-footer-label">Tools</span>
+            <span class="project-tool-tag">Jira</span><span class="project-tool-tag">Azure DevOps</span><span class="project-tool-tag">Postman</span>
+          </div>
+          <div class="project-ownership">Led UAT execution and client walkthroughs</div>
+        </div>
+      </div>
+
+      <div class="project-card p2">
+        <div class="project-top">
+          <div class="project-name">IA Medical &amp; Non-Medical Complaint CRM System</div>
+          <div class="project-domain-badge">Government / Insurance</div>
+        </div>
+        <div class="project-meta"><span>Saudi Insurance Authority (KSA Government)</span> · Web-based CRM (Creatio)</div>
+        <ul class="project-bullets">
+          <li>Participated in SIT and end-to-end UAT for a government complaint management CRM system.</li>
+          <li>Executed integration testing to validate data exchange between call center systems, beneficiaries, insurance companies, and the IA portal.</li>
+          <li>Created and maintained test cases mapped to user stories and acceptance criteria.</li>
+          <li>Reported and tracked defects, supported defect triage, and ensured quality sign-off before release.</li>
+        </ul>
+        <div class="project-footer">
+          <div class="project-footer-row">
+            <span class="project-footer-label">Testing</span>
+            <span class="project-tool-tag">SIT</span><span class="project-tool-tag">UAT</span><span class="project-tool-tag">Integration</span><span class="project-tool-tag">API</span><span class="project-tool-tag">Manual</span>
+          </div>
+          <div class="project-footer-row">
+            <span class="project-footer-label">Tools</span>
+            <span class="project-tool-tag">Jira</span><span class="project-tool-tag">Postman</span>
+          </div>
+          <div class="project-ownership">Owned UAT scenarios and execution reporting</div>
+        </div>
+      </div>
+
+      <div class="project-card p3">
+        <div class="project-top">
+          <div class="project-name">Digital Platform &amp; Services Management System</div>
+          <div class="project-domain-badge">Government Sector</div>
+        </div>
+        <div class="project-meta"><span>King Abdulaziz Center for Cultural Communication (KACCC)</span> · Web, iOS &amp; Android Applications</div>
+        <ul class="project-bullets">
+          <li>Performed manual testing of core user journeys including registration, workshop search, booking, payments, and service history.</li>
+          <li>Executed mobile testing on iOS and Android focusing on usability, responsiveness, and device compatibility.</li>
+          <li>Performed regression testing to ensure platform stability after each release.</li>
+          <li>Identified and tracked defects related to booking, payments, notifications, and location-based services.</li>
+        </ul>
+        <div class="project-footer">
+          <div class="project-footer-row">
+            <span class="project-footer-label">Testing</span>
+            <span class="project-tool-tag">Manual</span><span class="project-tool-tag">Mobile</span><span class="project-tool-tag">API</span><span class="project-tool-tag">Regression</span>
+          </div>
+          <div class="project-footer-row">
+            <span class="project-footer-label">Tools</span>
+            <span class="project-tool-tag">Azure DevOps</span><span class="project-tool-tag">Postman</span>
+          </div>
+          <div class="project-ownership">End-to-end testing of booking and payment flows</div>
+        </div>
+      </div>
+
+      <div class="project-card p4">
+        <div class="project-top">
+          <div class="project-name">Mekaniku — Automotive Services Platform</div>
+          <div class="project-domain-badge">Automotive / Services Marketplace</div>
+        </div>
+        <div class="project-meta"><span>Private Sector — Malaysia</span> · Web, iOS &amp; Android Applications</div>
+        <ul class="project-bullets">
+          <li>Performed manual testing of core user journeys including registration, workshop search, booking, payments, and service history.</li>
+          <li>Executed mobile testing on iOS and Android focusing on usability, responsiveness, and device compatibility.</li>
+          <li>Performed regression testing to ensure platform stability after each release.</li>
+          <li>Identified and tracked defects related to booking, payments, notifications, and location-based services.</li>
+        </ul>
+        <div class="project-footer">
+          <div class="project-footer-row">
+            <span class="project-footer-label">Testing</span>
+            <span class="project-tool-tag">Manual</span><span class="project-tool-tag">Mobile</span><span class="project-tool-tag">API</span><span class="project-tool-tag">Regression</span>
+          </div>
+          <div class="project-footer-row">
+            <span class="project-footer-label">Tools</span>
+            <span class="project-tool-tag">Jira</span><span class="project-tool-tag">Postman</span>
+          </div>
+          <div class="project-ownership">End-to-end testing of booking and payment flows</div>
+        </div>
+      </div>
+
+      <div class="project-card p5">
+        <div class="project-top">
+          <div class="project-name">Afrikobo — Multi-Vendor E-Commerce Platform</div>
+          <div class="project-domain-badge">E-Commerce</div>
+        </div>
+        <div class="project-meta"><span>Private Sector — Africa</span> · Web, iOS &amp; Android Applications</div>
+        <ul class="project-bullets">
+          <li>Participated in manual testing of buyer and vendor workflows including product browsing, cart, checkout, and order tracking.</li>
+          <li>Tested vendor-side features such as product listing, inventory management, order processing, and notifications.</li>
+          <li>Performed cross-platform mobile testing on iOS and Android and validated responsive web behavior.</li>
+          <li>Executed regression testing and tracked defects in critical flows such as checkout, payments, and vendor dashboards.</li>
+        </ul>
+        <div class="project-footer">
+          <div class="project-footer-row">
+            <span class="project-footer-label">Testing</span>
+            <span class="project-tool-tag">Manual</span><span class="project-tool-tag">Web</span><span class="project-tool-tag">Mobile</span><span class="project-tool-tag">API</span><span class="project-tool-tag">Regression</span>
+          </div>
+          <div class="project-footer-row">
+            <span class="project-footer-label">Tools</span>
+            <span class="project-tool-tag">Jira</span><span class="project-tool-tag">Postman</span>
+          </div>
+          <div class="project-ownership">Validation of end-to-end e-commerce and vendor workflows</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="reveal">
+    <div class="section-tag">// Toolbox</div>
+    <h2 class="section-title">Tools &amp; Skills</h2>
+    <div class="skills-main-grid">
+      <div class="skill-box t-cyan">
+        <div class="skill-box-icon">🧪</div>
+        <div class="skill-box-title">Test Management</div>
+        <div class="skill-box-tags">
+          <span>Jira</span><span>Trello</span><span>Azure DevOps</span><span>TestRail</span>
+        </div>
+      </div>
+      <div class="skill-box t-yellow">
+        <div class="skill-box-icon">🔌</div>
+        <div class="skill-box-title">API Testing</div>
+        <div class="skill-box-tags">
+          <span>Postman</span><span>REST APIs</span>
+        </div>
+      </div>
+      <div class="skill-box t-coral">
+        <div class="skill-box-icon">🤖</div>
+        <div class="skill-box-title">Automation</div>
+        <div class="skill-box-tags">
+          <span>Selenium</span><span>Java</span><span>OOP</span>
+        </div>
+      </div>
+      <div class="skill-box t-blue">
+        <div class="skill-box-icon">⚡</div>
+        <div class="skill-box-title">Performance</div>
+        <div class="skill-box-tags">
+          <span>JMeter</span><span>Load Testing</span>
+        </div>
+      </div>
+      <div class="skill-box t-cyan">
+        <div class="skill-box-icon">🗄️</div>
+        <div class="skill-box-title">Databases</div>
+        <div class="skill-box-tags">
+          <span>SQL Server</span><span>MySQL</span><span>Oracle DB</span><span>Excel</span>
+        </div>
+      </div>
+      <div class="skill-box t-coral">
+        <div class="skill-box-icon">📱</div>
+        <div class="skill-box-title">Mobile Testing</div>
+        <div class="skill-box-tags">
+          <span>Android Emulator</span><span>iOS Simulator</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATES -->
+  <section class="reveal">
+    <div class="section-tag">// Credentials</div>
+    <h2 class="section-title">Certificates</h2>
+    <div class="certs-grid">
+
+      <a class="cert-card" href="https://scr.istqb.org/?name=Mohamed+Darwesh&number=250625053&orderBy=relevancy&orderDirection=&dateStart=&dateEnd=&expiryStart=&expiryEnd=&certificationBody=&examProvider=&certificationLevel=&country=&resultsPerPage=10" target="_blank" rel="noopener">
+        <div class="cert-num">01</div>
+        <div>
+          <div class="cert-title">ISTQB® — International Software Testing Qualifications Board</div>
+          <div class="cert-org">Foundation Level Certification</div>
+        </div>
+        <div class="cert-link-icon">↗</div>
+      </a>
+
+      <a class="cert-card" href="https://drive.google.com/file/d/1rqcOplWEgAz5z0IdTnArCz7egviZBSBZ/view?usp=drive_link" target="_blank" rel="noopener">
+        <div class="cert-num">02</div>
+        <div>
+          <div class="cert-title">Software Testing &amp; QA — Summer Internship</div>
+          <div class="cert-org">Information Technology Institute (ITI)</div>
+        </div>
+        <div class="cert-link-icon">↗</div>
+      </a>
+
+      <a class="cert-card" href="https://drive.google.com/file/d/1ms2eNEWKOusw9pSNECX-kWZPcjd7jYgG/view?usp=sharing" target="_blank" rel="noopener">
+        <div class="cert-num">03</div>
+        <div>
+          <div class="cert-title">Quality Assurance &amp; Manual Testing Workshop</div>
+          <div class="cert-org">WhiteBox &amp; Denvwares Company</div>
+        </div>
+        <div class="cert-link-icon">↗</div>
+      </a>
+
+      <a class="cert-card" href="https://drive.google.com/file/d/1JwqAvpaWGyr_qx31aEyGXXTWtx1EpE6L/view?usp=sharing" target="_blank" rel="noopener">
+        <div class="cert-num">04</div>
+        <div>
+          <div class="cert-title">QA, Manual Testing &amp; API Testing Workshop</div>
+          <div class="cert-org">AIM Tech</div>
+        </div>
+        <div class="cert-link-icon">↗</div>
+      </a>
+
+      <a class="cert-card" href="https://drive.google.com/file/d/125GYoUGhhtNDFUpqBoz6iI8J8T36BjIm/view?usp=sharing" target="_blank" rel="noopener">
+        <div class="cert-num">05</div>
+        <div>
+          <div class="cert-title">ISTQB Foundation Level (FL) — Full Course</div>
+          <div class="cert-org">Qcart Academy</div>
+        </div>
+        <div class="cert-link-icon">↗</div>
+      </a>
+
+      <div class="cert-card" style="flex-direction:column;gap:12px;">
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <div class="cert-num">06</div>
+          <div>
+            <div class="cert-title">Java Programming &amp; Object-Oriented Programming (OOP)</div>
+            <div class="cert-org">Nezam Academy</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;padding-left:40px;">
+          <a href="https://drive.google.com/file/d/1RezwbiqGp6dizrkdh3A7RPylKEJZM5Lv/view?usp=sharing" target="_blank" rel="noopener" style="font-size:12px;padding:4px 14px;border-radius:6px;border:1px solid rgba(0,229,200,0.3);color:var(--cyan);text-decoration:none;font-family:'DM Mono',monospace;transition:background 0.2s;" onmouseover="this.style.background='rgba(0,229,200,0.08)'" onmouseout="this.style.background='transparent'">Java ↗</a>
+          <a href="https://drive.google.com/file/d/131iep8V48iZIEceNenAc2r5JfgiRR55F/view?usp=sharing" target="_blank" rel="noopener" style="font-size:12px;padding:4px 14px;border-radius:6px;border:1px solid rgba(0,229,200,0.3);color:var(--cyan);text-decoration:none;font-family:'DM Mono',monospace;transition:background 0.2s;" onmouseover="this.style.background='rgba(0,229,200,0.08)'" onmouseout="this.style.background='transparent'">OOP ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>Mohamed Darwesh</span> · Mid-Level QA Engineer · Cairo, Egypt · 2024
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
